@@ -1,41 +1,28 @@
-function isWhitespaceNode(node) {
-  return !/[^\t\n\r ]/.test(node.textContent);
-}
+import { generateCfiSteps } from "./tinycfi";
 
-export function generateCfiSteps(target, root = this.window.document.documentElement) {
-  const window = this.window;
-  const treeWalker = window.document.createTreeWalker(
-    root,
-    window.NodeFilter.SHOW_ELEMENT + window.NodeFilter.SHOW_TEXT,
-    {
-      acceptNode: function (node) {
-        if (node.nodeType === window.Node.TEXT_NODE && isWhitespaceNode(node)) {
-          return window.NodeFilter.FILTER_REJECT;
-        }
-        return window.NodeFilter.FILTER_ACCEPT;
-      }
-    },
-    false
-  );
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
-  let currentNode;
-  if (target.nodeType === window.Node.TEXT_NODE) {
-    currentNode = target.parentNode;
-  } else {
-    currentNode = target;
-  }
+const dom = new JSDOM(
+  `
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div id="div-2">
+      <p id="p-2">
+        Hello world
+      </p>
+      <div></div>
+      <div id="div-6"></div>
+      <div></div>
+    </div>
+  </body>
+</html>
+  `
+);
 
-  treeWalker.currentNode = currentNode;
+const targetElement = dom.window.document.querySelector("#div-6");
 
-  const path = [];
-  do {
-    let index = 1;
-    while (treeWalker.previousSibling()) {
-      index = index + 1;
-    }
-    path.push(index * 2);
-    currentNode = treeWalker.parentNode();
-  } while (currentNode && currentNode !== root);
-
-  return `/${path.reverse().join('/')}`;
-}
+// should print: /4/2/6
+console.log(generateCfiSteps.call(dom, targetElement));

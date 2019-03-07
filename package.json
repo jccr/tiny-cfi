@@ -1,0 +1,23 @@
+{
+  "name": "tiny-cfi",
+  "version": "1.0.0",
+  "description": "Generate a minimal CFI for a target node, with only the DOM as a dependency.",
+  "main": "tinycfi.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jccr/tiny-cfi.git"
+  },
+  "author": "Juan Carlos Corona R <c@rlos.email>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jccr/tiny-cfi/issues"
+  },
+  "homepage": "https://github.com/jccr/tiny-cfi#readme",
+  "dependencies": {
+    "esm": "^3.2.11",
+    "jsdom": "^13.2.0"
+  }
+}
