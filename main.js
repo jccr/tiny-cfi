@@ -2,7 +2,8 @@ function isWhitespaceNode(node) {
   return !/[^\t\n\r ]/.test(node.textContent);
 }
 
-export function generateCfiSteps(target, root = window.document.documentElement) {
+export function generateCfiSteps(target, root = this.window.document.documentElement) {
+  const window = this.window;
   const treeWalker = window.document.createTreeWalker(
     root,
     window.NodeFilter.SHOW_ELEMENT + window.NodeFilter.SHOW_TEXT,
